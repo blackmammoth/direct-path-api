@@ -11,7 +11,7 @@ export class CreateUserDto {
   @IsOptional()
   readonly last_name?: string;
 
-  @IsOptional()
-  // @IsPhoneNumber(null)
-  readonly phone_number?: string;
+  // @IsOptional()
+  // // @IsPhoneNumber(null)
+  // readonly phone_number?: string;
 }
