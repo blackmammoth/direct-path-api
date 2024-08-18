@@ -18,27 +18,62 @@ export class InstructionsService {
     return createdInstruction.save();
   }
 
-  async findAll(): Promise<Instruction[]> {
-    return this.instructionModel.find().exec();
+  async findAll(
+    page: number,
+    limit: number,
+    country?: string,
+  ): Promise<{ data: Instruction[]; total: number }> {
+    const query = country ? { country } : {};
+    const data = await this.instructionModel
+      .find(query)
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .exec();
+    const total = await this.instructionModel.countDocuments(query).exec();
+    return { data, total };
   }
 
   async findById(id: string): Promise<Instruction> {
     return this.instructionModel.findById(id).exec();
   }
 
-  async search(keyword: string): Promise<Instruction[]> {
-    return this.instructionModel
-      .find({
-        $or: [
-          { title: { $regex: keyword, $options: 'i' } },
-          { tags: { $regex: keyword, $options: 'i' } },
-        ],
-      })
+  async search(
+    keyword: string,
+    page: number,
+    limit: number,
+    country?: string,
+  ): Promise<{ data: Instruction[]; total: number }> {
+    const keywordRegex = new RegExp(`\\b${keyword}\\b`, 'i');
+    const query: any = {
+      $or: [{ title: { $regex: keywordRegex } }, { tags: keyword }],
+    };
+
+    if (country) {
+      query.country = country;
+    }
+
+    const data = await this.instructionModel
+      .find(query)
+      .skip((page - 1) * limit)
+      .limit(limit)
       .exec();
+    const total = await this.instructionModel.countDocuments(query).exec();
+    return { data, total };
   }
 
-  async filterByCountry(country: string): Promise<Instruction[]> {
-    return this.instructionModel.find({ country }).exec();
+  async filterByCountry(
+    country: string,
+    page: number,
+    limit: number,
+  ): Promise<{ data: Instruction[]; total: number }> {
+    const query = { country };
+    const data = await this.instructionModel
+      .find(query)
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .exec();
+    const total = await this.instructionModel.countDocuments(query).exec();
+    return { data, total };
   }
 
   async update(

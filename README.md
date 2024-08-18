@@ -32,6 +32,16 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+To add, update, and delete instructions, you will need to get an access token from the `/auth/login` endpoint. You can use the following cURL command to get an access token:
+```bash
+curl --location --request POST 'api-endpoint/auth/login' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "username": "admin",
+    "password": "123456"
+}' --insecure
+```
+
 ## Test
 ```bash
 # unit tests
@@ -47,6 +57,9 @@ $ npm run test:cov
 ## Environment Variables
 ```env
 MONGODB_URI=<YOUR MONGODB URI>
+JWT_SECRET=<YOUR JWT SECRET>
+AUTH_USERNAME=<YOUR AUTH USERNAME>
+AUTH_PASSWORD=<YOUR AUTH PASSWORD>
 ```
 
 ## Contributing
@@ -55,3 +68,7 @@ Contributions are welcome! Please open an issue or submit a pull request for any
 ## Stay in touch
 - Author - haileyesusofficial@gmail.com
 - Telegram - @code_updates
+
+
+// TODO
+- [ ] Add Caching
