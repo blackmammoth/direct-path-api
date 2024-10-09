@@ -24,18 +24,31 @@ export class CreateInstructionDto {
   readonly steps: string[];
 
   @IsString()
-  @IsNotEmpty()
-  readonly titleAmharic: string;
-
-  @IsArray()
-  @ArrayNotEmpty()
-  readonly requiredDocumentsAmharic: string[];
-
-  @IsArray()
-  @ArrayNotEmpty()
-  readonly stepsAmharic: string[];
+  @IsOptional()
+  readonly titleLang: string;
 
   @IsArray()
   @IsOptional()
-  readonly tags?: string[];
+  readonly requiredDocumentsLang: string[];
+
+  @IsArray()
+  @IsOptional()
+  readonly stepsLang: string[];
+
+  @IsArray()
+  @IsOptional()
+  readonly tags: string[];
+
+  // ADD LANGUAGE HEADERS
+  @IsString()
+  @IsOptional()
+  readonly titleHeaderLang: string;
+
+  @IsString()
+  @IsOptional()
+  readonly requiredDocumentsHeaderLang: string;
+
+  @IsString()
+  @IsOptional()
+  readonly stepsHeaderLang: string;
 }

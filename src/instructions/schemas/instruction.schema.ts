@@ -17,17 +17,27 @@ export class Instruction {
   @Prop({ required: true })
   steps: string[];
 
-  @Prop({ required: true })
-  titleAmharic: string;
+  @Prop()
+  titleLang: string;
 
-  @Prop({ required: true })
-  requiredDocumentsAmharic: string[];
+  @Prop()
+  requiredDocumentsLang: string[];
 
-  @Prop({ required: true })
-  stepsAmharic: string[];
+  @Prop()
+  stepsLang: string[];
 
   @Prop()
   tags: string[];
+
+  // ADD LANGUAGE HEADERS
+  @Prop()
+  titleHeaderLang: string;
+
+  @Prop()
+  requiredDocumentsHeaderLang: string;
+
+  @Prop()
+  stepsHeaderLang: string;
 }
 
 export const InstructionSchema = SchemaFactory.createForClass(Instruction);

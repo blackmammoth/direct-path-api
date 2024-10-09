@@ -43,9 +43,21 @@ export class InstructionsService {
     limit: number,
     country?: string,
   ): Promise<{ data: Instruction[]; total: number }> {
+    // Convert keyword to a case-insensitive regex
     const keywordRegex = new RegExp(`\\b${keyword}\\b`, 'i');
+
+    // For title search
+    const titleRegex = new RegExp(
+      `^${keyword}|\\b${keyword}\\b`, // Matches if the keyword is at the start or is a whole word
+      'i',
+    );
+
     const query: any = {
-      $or: [{ title: { $regex: keywordRegex } }, { tags: keyword }],
+      $or: [
+        { title: { $regex: titleRegex } }, // Search in title
+        { tags: { $regex: keywordRegex } }, // Search in tags
+        { titleLang: { $regex: titleRegex } }, // Search in titleAmharic
+      ],
     };
 
     if (country) {
@@ -57,7 +69,9 @@ export class InstructionsService {
       .skip((page - 1) * limit)
       .limit(limit)
       .exec();
+
     const total = await this.instructionModel.countDocuments(query).exec();
+
     return { data, total };
   }
 
